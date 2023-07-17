@@ -18,11 +18,43 @@ public:
     int size;
 
     Snake(int startX, int startY, int initialSize) : direction(Direction::RIGHT), size(initialSize){
-        /* for(i = 0; i < size - 1; i++){
-            body.grow(std::make_pair(startX - i, startY));
+        for(int i = 0; i < size - 1; i++){
+            body.push_back(make_pair(startX - i, startY));
         }
-        */
     }
+
+    void move(){
+        int newX, newY;
+        switch (direction){
+            case Direction::UP:
+                newY--;
+                break;
+            case Direction::DOWN:
+                newY++;
+                break;
+            case Direction::LEFT:
+                newX--;
+                break;
+            case Direction::RIGHT:
+                newX++;
+                break;
+        }
+        body.insert(body.begin(), make_pair(newX, newY));
+
+        if (body.size() > size){
+            body.pop_back();
+        }
+    }
+    
+private:
+    bool isOppositeDirection(Direction newDirection) const{
+        return (direction == Direction::UP && newDirection == Direction::DOWN) ||
+                (direction == Direction::DOWN && newDirection == Direction::UP) ||
+                (direction == Direction::LEFT && newDirection == Direction::RIGHT) ||
+                (direction == Direction::RIGHT && newDirection == Direction::LEFT);
+    }
+    int size;
+    vector<pair<int, int>> body;
 }
 
 void initializeGameBoard(){
