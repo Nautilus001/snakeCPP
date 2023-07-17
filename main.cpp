@@ -18,6 +18,14 @@ void initializeGameBoard(){
         }
     }
 }
+void renderGameBoard(){
+    for(int i = 0; i < BOARD_HEIGHT-1; i++){
+        for(int j = 0; i < BOARD_WIDTH-1; j++){
+            cout << gameBoard[i][j];
+        }
+        cout << endl;
+    }
+}
 
 int main(){
     return 0;
