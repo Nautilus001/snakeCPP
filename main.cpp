@@ -9,13 +9,21 @@ const int BOARD_HEIGHT = 16;
 
 char gameBoard[BOARD_HEIGHT][BOARD_WIDTH];
 int snakePosition[256][256];
-
+enum class Direction {UP, DOWN, LEFT, RIGHT};
 class Snake{
+private:
+    bool isOppositeDirection(Direction newDirection) const{
+        return (direction == Direction::UP && newDirection == Direction::DOWN) ||
+                (direction == Direction::DOWN && newDirection == Direction::UP) ||
+                (direction == Direction::LEFT && newDirection == Direction::RIGHT) ||
+                (direction == Direction::RIGHT && newDirection == Direction::LEFT);
+    }
+    vector<pair<int, int>> body;
+    int size;
 public:
-    enum class Direction {UP, DOWN, LEFT, RIGHT};
+    
 
     Direction direction;
-    int size;
 
     Snake(int startX, int startY, int initialSize) : direction(Direction::RIGHT), size(initialSize){
         for(int i = 0; i < size - 1; i++){
@@ -46,17 +54,28 @@ public:
         }
     }
     
-private:
-    bool isOppositeDirection(Direction newDirection) const{
-        return (direction == Direction::UP && newDirection == Direction::DOWN) ||
-                (direction == Direction::DOWN && newDirection == Direction::UP) ||
-                (direction == Direction::LEFT && newDirection == Direction::RIGHT) ||
-                (direction == Direction::RIGHT && newDirection == Direction::LEFT);
+    void setDirection(Direction newDirection){
+        if(isOppositeDirection(newDirection)){
+            return;
+        }
+        direction = newDirection;
     }
-    int size;
-    vector<pair<int, int>> body;
-}
+    Direction getDirection(){
+        return direction;
+    }
 
+    vector<pair<int, int>> getBody(){
+        return body;
+    }
+
+    int getSize(){
+        return body.size();
+    }
+
+    void grow(){
+        size++;
+    }
+};
 void initializeGameBoard(){
     for (int i = 0; i < BOARD_HEIGHT; i++){
         for (int j = 0; j < BOARD_WIDTH; j++){
